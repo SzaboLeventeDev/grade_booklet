@@ -27,7 +27,24 @@ var listOfStudents = [
         last: "Vang",
         classData: {
             id:"5a",
-            subject: {}
+            subject: {
+                literature: [{
+                    topic: "Petofi Sandor",
+                    grade: "5",
+                    category:"speak"
+                }],
+                history: [{
+                    topic: "WWII",
+                    grade: "4",
+                    category:"Major test"
+                }],
+                math: [{
+                    topic: "",
+                    grade: "",
+                    category:""
+                }]
+                
+            }
         }
     },
     {
@@ -116,7 +133,6 @@ function clickClass(tempClassList){
 
 function clearList(){
     $("#studsOfClass").children().remove();    
-
 }
 
 function listStuds(val, arr){    
@@ -128,7 +144,27 @@ function listStuds(val, arr){
     });
 }
 
+//-------------------------------------click the selected student for more info----------------------------------------
+
+function loadSubject(tempStudList){
+    var studList = document.getElementById("studsOfClass");
+    /* var firstNameOfStud = "";
+    var lastNameOfStud = "";
+    var actualStudent = {}; */
+    for(var i = 0; i< tempStudList.length-1; i++){
+        studList.children[i].addEventListener("click", function(){
+            console.log(i)
+        })
+    }
+    
+
+}
+
+//-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
     loadClasses(listOfStudents);
-    clickClass(tempClassList)
+    clickClass(tempClassList);
+    loadSubject(listOfStudents);
 })
+
+
