@@ -1,3 +1,6 @@
+//global variables
+var tempClassList = [];
+
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -71,27 +74,61 @@ var listOfStudents = [
         subject: {}
     }
 } */
-//count classes
+//count studs in classes and write classes to the list.
 function loadClasses(arr){
-    var classList = {};
+    var obj = {};
+    
     arr.filter(function(val, i, array){
         val = array[i].classData.id;
-        if (val in classList) {
-            classList[val] ++;
+        if (val in obj) {
+            obj[val] ++;
         }else{
-            classList[val] = 1;
+            obj[val] = 1;
+            tempClassList.push(val);
         }
-
+        
+        return tempClassList;
     });
-    console.log(classList);
-    /* arr.forEach(function(value, i, array) {
-        var className = array[i].classData.id;
-        $("#classList").append("<li>" + className.toUpperCase() + "</li>");
-        console.log("sikeres kör " + className);
+    console.log("number of students in each classes", obj);
+    tempClassList.forEach(function(value, i, array) {
+        value = array[i];
+        $("#classList").append("<li>" + value.toUpperCase() + "</li>");
+        
         
     });
-    return className; */
+    
 }
+
+//click the selected class & list the studs
+function clickClass(tempClassList){
+    var list = document.getElementById("classList");
+    var selectedClass;
+    for( var i = 0; i < tempClassList.length; i++){
+        list.children[i].addEventListener("click", function(){
+            clearList();
+            console.log("actual clicked class: " + this.innerHTML)
+            selectedClass = this.innerHTML;
+            listStuds(selectedClass, listOfStudents);
+        })
+    }
+    console.log(selectedClass);
+}
+
+function clearList(){
+    $("#studsOfClass").children().remove();    
+
+}
+
+function listStuds(val, arr){    
+    arr.filter(function(value, i, array){
+        value = array[i];
+        if (value.classData.id === val.toLowerCase()) {
+            $("#studsOfClass").append("<li>" + value.first + " " + value.last + "</li>");
+        }
+    });
+}
+
 $(document).ready(function(){
     loadClasses(listOfStudents);
+    clickClass(tempClassList)
 })
