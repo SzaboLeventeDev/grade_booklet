@@ -1,5 +1,6 @@
 //global variables
 var tempClassList = [];
+var selectedStudent = student;
 
 //Array of students and declaration for the objects
 var student = {
@@ -18,7 +19,8 @@ var student = {
 var gradeForStudent = {
     topic: "",
     grade: "",
-    category:""
+    category:"",
+    /* subject:"" */
 }
 
 var listOfStudents = [
@@ -127,8 +129,75 @@ function listStuds(val, arr){
         }
     });
 }
+/* ------------------------add grade to student----------------------------------------------*/
+var tempSubjectList = [];
+var oralCheck = document.getElementById("oralGrade");
+var smallTestCheck = document.getElementById("smallTestGrade");
+var testCheck = document.getElementById("testGrade");
+var majorTestCheck = document.getElementById("majorTestGrade");
+var selectedGrade = document.getElementById("selectGrade");
+var selectedSubject = document.getElementById("subjectList").value;
+
+function selectSubjectsForGrade(arr){
+    arr.filter(function(value){
+        if (value in tempSubjectList) {
+            
+        }
+    })
+}
+
+function valueChanged(){
+    if (oralCheck.checked == true) {
+        smallTestCheck.checked == false;
+        testCheck.checked == false;
+        majorTestCheck.checked == false
+    }
+    else if (smallTestCheck.checked == true) {
+        oralCheck.checked == false;
+        testCheck.checked == false;
+        majorTestCheck.checked == false;
+    }
+    else if(testCheck.checked == true){
+        oralCheck.checked == false;
+        smallTestCheck.checked == false;
+        majorTestCheck.checked == false
+    }
+    else if (majorTestCheck.checked == true) {
+        oralCheck.checked == false;
+        smallTestCheck.checked == false;
+        testCheck.checked == false;
+    }
+    return;
+}
+
+function saveGrade(arr){
+    var topicInput = document.getElementById("topicText");
+    var newGrade = new gradeForStudent;
+    newGrade.topic = topicInput.value;
+    newGrade.category = valueChanged();
+    newGrade.grade = selectedGrade.value;
+    /* newGrade.subject = selectedSubject; */
+
+    //check if newGrade has not empty value
+
+    //newGrade pushing
+
+    for (let i = 0; i < listOfStudents.length-1; i++) {
+        var tempSubject = listOfStudents[i].classData.subject;
+        if (listOfStudents[i].first === selectedStudent.first && listOfStudents[i].last === selectedStudent.last) {
+            tempSubject.some(function(selectedSubject, index){
+                if (selectedSubject === tempSubject[index]) {
+                    tempSubject[index].push(newGrade);
+                }
+            })
+        
+        }
+    }
+}
+
+
 
 $(document).ready(function(){
     loadClasses(listOfStudents);
-    clickClass(tempClassList)
+    clickClass(tempClassList);
 })
