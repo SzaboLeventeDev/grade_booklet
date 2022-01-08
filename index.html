@@ -34,24 +34,26 @@
         </div>
         <div class="right_size">
             <div class="menu">
-                <select name="subject" id="subjectList"></select>
+                <select name="subject" id="subjectList">
+                    <option value="selectSubject">Select a subject!</option>
+                </select>
                 <input type="text" name="topicOfGrade" id="topicText" placeholder="Summary for the grade">
                 <fieldset>
                     <legend>
                         Type of grade
                     </legend>
-                    <label for="oralGrade">oral exam</label>
-                    <input type="radio" name="grade_types" id="oralGrade" onchange="valueChanged">
+                    <label for="oralGrade">Oral exam</label>
+                    <input type="radio" name="gradeTypes" id="oralGrade" onchange="valueChanged">
                     <label for="smallTestGrade">Small test</label>
-                    <input type="radio" name="grade_types" id="smallTestGrade" onchange="valueChanged">
+                    <input type="radio" name="gradeTypes" id="smallTestGrade" onchange="valueChanged">
                     <label for="testGrade">Test</label>
-                    <input type="radio" name="grade_types" id="testGrade">
+                    <input type="radio" name="gradeTypes" id="testGrade">
                     <label for="majorTestGrade">Major test</label>
-                    <input type="radio" name="grade_types" id="majorTestGrade">
+                    <input type="radio" name="gradeTypes" id="majorTestGrade">
                 </fieldset>
-                
                 <label for="grade">Grade</label>
                 <select name="grade" id="selectGrade">
+                    <option value="selectGrade">Select a grade!</option>
                     <option value="five">5</option>
                     <option value="four">4</option>
                     <option value="three">3</option>

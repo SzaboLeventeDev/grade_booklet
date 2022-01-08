@@ -136,7 +136,7 @@ var smallTestCheck = document.getElementById("smallTestGrade");
 var testCheck = document.getElementById("testGrade");
 var majorTestCheck = document.getElementById("majorTestGrade");
 var selectedGrade = document.getElementById("selectGrade");
-var selectedSubject = document.getElementById("subjectList").value;
+var selectedSubject = document.getElementById("subjectList");
 
 function selectSubjectsForGrade(arr){
     arr.filter(function(value){
@@ -172,27 +172,37 @@ function valueChanged(){
 
 function saveGrade(arr){
     var topicInput = document.getElementById("topicText");
-    var newGrade = new gradeForStudent;
+    var newGrade =  new gradeForStudent;
     newGrade.topic = topicInput.value;
     newGrade.category = valueChanged();
     newGrade.grade = selectedGrade.value;
     /* newGrade.subject = selectedSubject; */
 
-    //check if newGrade has not empty value
-
-    //newGrade pushing
-
-    for (let i = 0; i < listOfStudents.length-1; i++) {
-        var tempSubject = listOfStudents[i].classData.subject;
-        if (listOfStudents[i].first === selectedStudent.first && listOfStudents[i].last === selectedStudent.last) {
-            tempSubject.some(function(selectedSubject, index){
-                if (selectedSubject === tempSubject[index]) {
-                    tempSubject[index].push(newGrade);
-                }
-            })
-        
+    //save button addEventListener
+    var saveButton = document.getElementById("saveBtn");
+    var getSelectedRadioBtn = document.querySelector('input[name = "gradeTypes"]:checked');
+    var actualGrade = selectedGrade.options[selectedGrade.selectedIndex].value;
+    var actualSubject = selectedSubject.options[selectedSubject.selectedIndex].value;
+    saveButton.addEventListener("click", function (){
+        //check if newGrade has not empty value
+        if (actualSubject == "Select a subject!" || topicInput.value == "" || getSelectedRadioBtn == null || actualGrade == "Select a grade!") {
+            alert("Please add all the required parameters for the saving!");
+            console.log("error");
         }
-    }
+        else{
+            //newGrade pushing
+            for (let i = 0; i < listOfStudents.length-1; i++) {
+                var tempSubject = listOfStudents[i].classData.subject;
+                if (listOfStudents[i].first === selectedStudent.first && listOfStudents[i].last === selectedStudent.last) {
+                    tempSubject.some(function(actualSubject, index){
+                        if (actualSubject === tempSubject[index]) {
+                            tempSubject[index].push(newGrade);
+                        }
+                    })
+                }
+            }
+        }
+    })
 }
 
 
@@ -200,4 +210,5 @@ function saveGrade(arr){
 $(document).ready(function(){
     loadClasses(listOfStudents);
     clickClass(tempClassList);
+    saveGrade();
 })
