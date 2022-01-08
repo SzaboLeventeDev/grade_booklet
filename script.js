@@ -172,7 +172,7 @@ function valueChanged(){
 
 function saveGrade(arr){
     var topicInput = document.getElementById("topicText");
-    var newGrade =  new gradeForStudent;
+    var newGrade =  Object.create(gradeForStudent);
     newGrade.topic = topicInput.value;
     newGrade.category = valueChanged();
     newGrade.grade = selectedGrade.value;
@@ -205,10 +205,21 @@ function saveGrade(arr){
     })
 }
 
+function cancel(){
+    var cancel = document.getElementById("cancelBtn");
+    cancel.addEventListener("click", function(){
+        console.log("click");
+        document.getElementById("subjectList").selectedIndex = 0;
+        document.getElementById("selectGrade").selectedIndex = 0;
+        document.getElementById("topicText").value = "";
+    });
+   
 
+}
 
 $(document).ready(function(){
     loadClasses(listOfStudents);
     clickClass(tempClassList);
     saveGrade();
+    cancel();
 })
