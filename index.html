@@ -34,25 +34,34 @@
         </div>
         <div class="right_size">
             <div class="menu">
-                <input type="text" name="y" id="" placeholder="Summary for the grade">
-                <label for="speak">speak</label>
-                <input type="radio" name="speak" id="">
-                <label for="small test">Small test</label>
-                <input type="radio" name="small_test" id="">
-                <label for="test">Test</label>
-                <input type="radio" name="test" id="">
-                <label for="major_test">Major test</label>
-                <input type="radio" name="major_test" id="">
+                <select name="subject" id="subjectList">
+                    <option value="selectSubject">Select a subject!</option>
+                </select>
+                <input type="text" name="topicOfGrade" id="topicText" placeholder="Summary for the grade">
+                <fieldset>
+                    <legend>
+                        Type of grade
+                    </legend>
+                    <label for="oralGrade">Oral exam</label>
+                    <input type="radio" name="gradeTypes" id="oralGrade" onchange="valueChanged">
+                    <label for="smallTestGrade">Small test</label>
+                    <input type="radio" name="gradeTypes" id="smallTestGrade" onchange="valueChanged">
+                    <label for="testGrade">Test</label>
+                    <input type="radio" name="gradeTypes" id="testGrade">
+                    <label for="majorTestGrade">Major test</label>
+                    <input type="radio" name="gradeTypes" id="majorTestGrade">
+                </fieldset>
                 <label for="grade">Grade</label>
-                <select name="grade" id="select_grade">
+                <select name="grade" id="selectGrade">
+                    <option value="selectAGrade">Select a grade!</option>
                     <option value="five">5</option>
                     <option value="four">4</option>
                     <option value="three">3</option>
                     <option value="two">2</option>
                     <option value="one">1</option>
                 </select>
-                <button>Save</button>
-                <button> Cancel</button>
+                <button id="saveBtn">Save</button>
+                <button id="cancelBtn"> Cancel</button>
             </div>
             <div class="content">
                 <div class="subject_summary">
