@@ -1,5 +1,6 @@
 //global variables
 var tempClassList = [];
+var selectedStudent = student;
 
 //Array of students and declaration for the objects
 var student = {
@@ -18,7 +19,8 @@ var student = {
 var gradeForStudent = {
     topic: "",
     grade: "",
-    category:""
+    category:"",
+    /* subject:"" */
 }
 
 var listOfStudents = [
@@ -143,6 +145,93 @@ function listStuds(val, arr){
         }
     });
 }
+/* ------------------------add grade to student----------------------------------------------*/
+var tempSubjectList = [];
+var oralCheck = document.getElementById("oralGrade");
+var smallTestCheck = document.getElementById("smallTestGrade");
+var testCheck = document.getElementById("testGrade");
+var majorTestCheck = document.getElementById("majorTestGrade");
+var selectedGrade = document.getElementById("selectGrade");
+var selectedSubject = document.getElementById("subjectList");
+
+function selectSubjectsForGrade(arr){
+    arr.filter(function(value){
+        if (value in tempSubjectList) {
+            
+        }
+    })
+}
+
+function valueChanged(){
+    if (oralCheck.checked == true) {
+        smallTestCheck.checked == false;
+        testCheck.checked == false;
+        majorTestCheck.checked == false
+    }
+    else if (smallTestCheck.checked == true) {
+        oralCheck.checked == false;
+        testCheck.checked == false;
+        majorTestCheck.checked == false;
+    }
+    else if(testCheck.checked == true){
+        oralCheck.checked == false;
+        smallTestCheck.checked == false;
+        majorTestCheck.checked == false
+    }
+    else if (majorTestCheck.checked == true) {
+        oralCheck.checked == false;
+        smallTestCheck.checked == false;
+        testCheck.checked == false;
+    }
+    return;
+}
+
+function saveGrade(arr){
+    var topicInput = document.getElementById("topicText");
+    var newGrade =  Object.create(gradeForStudent);
+    newGrade.topic = topicInput.value;
+    newGrade.category = valueChanged();
+    newGrade.grade = selectedGrade.value;
+    /* newGrade.subject = selectedSubject; */
+
+    //save button addEventListener
+    var saveButton = document.getElementById("saveBtn");
+    var getSelectedRadioBtn = document.querySelector('input[name = "gradeTypes"]:checked');
+    var actualGrade = selectedGrade.options[selectedGrade.selectedIndex].value;
+    var actualSubject = selectedSubject.options[selectedSubject.selectedIndex].value;
+    saveButton.addEventListener("click", function (){
+        //check if newGrade has not empty value
+        if (actualSubject == "Select a subject!" || topicInput.value == "" || getSelectedRadioBtn == null || actualGrade == "Select a grade!") {
+            alert("Please add all the required parameters for the saving!");
+            console.log("error");
+        }
+        else{
+            //newGrade pushing
+            for (let i = 0; i < listOfStudents.length-1; i++) {
+                var tempSubject = listOfStudents[i].classData.subject;
+                if (listOfStudents[i].first === selectedStudent.first && listOfStudents[i].last === selectedStudent.last) {
+                    tempSubject.some(function(actualSubject, index){
+                        if (actualSubject === tempSubject[index]) {
+                            tempSubject[index].push(newGrade);
+                        }
+                    })
+                }
+            }
+        }
+    })
+}
+
+function cancel(){
+    var cancel = document.getElementById("cancelBtn");
+    cancel.addEventListener("click", function(){
+        console.log("click");
+        document.getElementById("subjectList").selectedIndex = 0;
+        document.getElementById("selectGrade").selectedIndex = 0;
+        document.getElementById("topicText").value = "";
+    });
+   
+
+}
 
 //-------------------------------------click the selected student for more info----------------------------------------
 
@@ -164,7 +253,8 @@ function loadSubject(tempStudList){
 $(document).ready(function(){
     loadClasses(listOfStudents);
     clickClass(tempClassList);
-    loadSubject(listOfStudents);
+    saveGrade();
+    cancel();
 })
 
 
