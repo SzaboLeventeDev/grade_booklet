@@ -1,6 +1,8 @@
 //global variables
 var tempClassList = [];
+var tempStudList = [];
 var selectedStudent = student;
+var locationOfSpace = 0;
 
 //Array of students and declaration for the objects
 var student = {
@@ -118,7 +120,7 @@ function loadClasses(arr){
     
 }
 
-//click the selected class & list the studs
+//-----------------------click the selected class & list the studs-----------------------------
 function clickClass(tempClassList){
     var list = document.getElementById("classList");
     var selectedClass;
@@ -142,6 +144,8 @@ function listStuds(val, arr){
         value = array[i];
         if (value.classData.id === val.toLowerCase()) {
             $("#studsOfClass").append("<li>" + value.first + " " + value.last + "</li>");
+            tempStudList.push(value.first + " " + value.last);
+            return tempStudList;
         }
     });
 }
@@ -203,6 +207,7 @@ function saveGrade(arr){
         //check if newGrade has not empty value
         if (actualSubject == "Select a subject!" || topicInput.value == "" || getSelectedRadioBtn == null || actualGrade == "Select a grade!") {
             alert("Please add all the required parameters for the saving!");
+            //write the missing data/param to the user. - not finished
             console.log("error");
         }
         else{
@@ -237,22 +242,42 @@ function cancel(){
 
 function loadSubject(tempStudList){
     var studList = document.getElementById("studsOfClass");
-    /* var firstNameOfStud = "";
+    var firstNameOfStud = "";
     var lastNameOfStud = "";
-    var actualStudent = {}; */
-    for(var i = 0; i< tempStudList.length-1; i++){
+    var actualStudent = {};
+    for(var i = 0; i < tempStudList.length-1; i++){
         studList.children[i].addEventListener("click", function(){
-            console.log(i)
+            firstNameOfStud = tempStudList[i].substr(0, locationOfSpace)
+            lastNameOfStud = tempStudList[i].substr(locationOfSpace)
         })
     }
-    
+
+    for (let index = 0; index < listOfStudents.length-1; index++) {
+        if (listOfStudents[i].first === firstNameOfStud && listOfStudents[i].last === lastNameOfStud) {
+            actualStudent === listOfStudents[i];
+            break;
+        }
+          
+    }
+    return actualStudent;
 
 }
 
+function findSpace(val){
+    var space = " ";
+    
+    return val.split('').forEach(function(char, idx){
+        if (char === space) {
+            locationOfSpace == idx;
+            return locationOfSpace;
+        }
+    });
+}
 //-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
     loadClasses(listOfStudents);
     clickClass(tempClassList);
+    loadSubject(listOfStudents);
     saveGrade();
     cancel();
 })
