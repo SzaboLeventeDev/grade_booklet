@@ -3,7 +3,7 @@ var tempClassList = [];
 var tempStudList = [];
 var selectedStudent = student;
 var locationOfSpace = 0;
-
+var selectedClass;
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -123,20 +123,22 @@ function loadClasses(arr){
 //-----------------------click the selected class & list the studs-----------------------------
 function clickClass(tempClassList){
     var list = document.getElementById("classList");
-    var selectedClass;
+    
     for( var i = 0; i < tempClassList.length; i++){
         list.children[i].addEventListener("click", function(){
             clearList();
             console.log("actual clicked class: " + this.innerHTML)
-            selectedClass = this.innerHTML;
+           selectedClass = this.innerHTML;
             listStuds(selectedClass, listOfStudents);
         })
     }
-    console.log(selectedClass);
+    console.log("selectedClass: ", selectedClass);
 }
 
 function clearList(){
-    $("#studsOfClass").children().remove();    
+    $("#studsOfClass").children().remove(); 
+    tempStudList  = [];   
+    console.log("tempStudList is empty");
 }
 
 function listStuds(val, arr){    
@@ -148,6 +150,7 @@ function listStuds(val, arr){
             return tempStudList;
         }
     });
+    console.log("tempStudlist: ", tempStudList);//log for testing
 }
 /* ------------------------add grade to student----------------------------------------------*/
 var tempSubjectList = [];
@@ -240,21 +243,23 @@ function cancel(){
 
 //-------------------------------------click the selected student for more info----------------------------------------
 
-function loadSubject(tempStudList){
+function loadActualStudent(tempStudList){
+    console.log("loadActualStudent() is invoking");//line for test
     var studList = document.getElementById("studsOfClass");
     var firstNameOfStud = "";
     var lastNameOfStud = "";
     var actualStudent = {};
     for(var i = 0; i < tempStudList.length-1; i++){
         studList.children[i].addEventListener("click", function(){
-            firstNameOfStud = tempStudList[i].substr(0, locationOfSpace)
-            lastNameOfStud = tempStudList[i].substr(locationOfSpace)
+            console.log("this.innerHTML");
+            /* findSpace(this.innerHTML) */;// instead of tempsutdlist -> studist.children[i].innerhtml/innertext?
+            /* firstNameOfStud == tempStudList[i].substr(0, locationOfSpace);
+            lastNameOfStud == tempStudList[i].substr(locationOfSpace); */
         })
     }
-
     for (let index = 0; index < listOfStudents.length-1; index++) {
         if (listOfStudents[i].first === firstNameOfStud && listOfStudents[i].last === lastNameOfStud) {
-            actualStudent === listOfStudents[i];
+            actualStudent == listOfStudents[i].slice();
             break;
         }
           
@@ -264,20 +269,33 @@ function loadSubject(tempStudList){
 }
 
 function findSpace(val){
-    var space = " ";
+    //Yu's solution
+    /* var text = ("Levi Ackermann");
+    var spacePosition = text.search(" "); 
+    console.log(spacePosition); */
+    //My solution - not works
+    /* var space = " ";
     
     return val.split('').forEach(function(char, idx){
         if (char === space) {
             locationOfSpace == idx;
+            console.log(locationOfSpace);
             return locationOfSpace;
         }
-    });
+    }); */
+
+    //my new solution using Yu's 
+    var spacePosition = val.search(" ");
+    return spacePosition;
 }
 //-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
     loadClasses(listOfStudents);
     clickClass(tempClassList);
-    loadSubject(listOfStudents);
+    if (tempStudList !== []) {
+        loadActualStudent(tempStudList);
+    }
+    
     saveGrade();
     cancel();
 })
