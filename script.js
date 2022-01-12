@@ -4,6 +4,7 @@ var tempStudList = [];
 var selectedStudent = student;
 var locationOfSpace = 0;
 var selectedClass;
+var spacePosition;
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -130,9 +131,11 @@ function clickClass(tempClassList){
             console.log("actual clicked class: " + this.innerHTML)
            selectedClass = this.innerHTML;
             listStuds(selectedClass, listOfStudents);
+            loadActualStudent(tempStudList)
         })
     }
     console.log("selectedClass: ", selectedClass);
+    
 }
 
 function clearList(){
@@ -246,25 +249,34 @@ function cancel(){
 function loadActualStudent(tempStudList){
     console.log("loadActualStudent() is invoking");//line for test
     var studList = document.getElementById("studsOfClass");
-    var firstNameOfStud = "";
-    var lastNameOfStud = "";
+    var firstNameOfStud;
+    var lastNameOfStud;
     var actualStudent = {};
-    for(var i = 0; i < tempStudList.length-1; i++){
+    for(var i = 0; i < tempStudList.length; i++){
         studList.children[i].addEventListener("click", function(){
-            console.log("this.innerHTML");
-            /* findSpace(this.innerHTML) */;// instead of tempsutdlist -> studist.children[i].innerhtml/innertext?
-            /* firstNameOfStud == tempStudList[i].substr(0, locationOfSpace);
-            lastNameOfStud == tempStudList[i].substr(locationOfSpace); */
+            console.log(this.innerHTML);//line for test
+            findSpace(this.innerHTML);// instead of tempsutdlist -> studist.children[i].innerhtml/innertext?            
+            firstNameOfStud = this.innerHTML.substr(0, spacePosition);
+            lastNameOfStud = this.innerHTML.substr(spacePosition+1);    
+            console.log("first:"+ firstNameOfStud);
+            console.log("last:"+ lastNameOfStud);
+            return lastNameOfStud && firstNameOfStud;
         })
     }
-    for (let index = 0; index < listOfStudents.length-1; index++) {
-        if (listOfStudents[i].first === firstNameOfStud && listOfStudents[i].last === lastNameOfStud) {
-            actualStudent == listOfStudents[i].slice();
-            break;
+    if (firstNameOfStud != "" && lastNameOfStud != "") {
+        for (let index = 0; index < listOfStudents.length-1; index++) {
+            console.log(i + ". start")//line for test
+            if (listOfStudents[i].first === firstNameOfStud && listOfStudents[i].last === lastNameOfStud) {
+                actualStudent == listOfStudents[i].slice();
+                console.log("Yes");//line for test
+                break;
+            }
+            console.log(i + ". finish")//line for test 
         }
-          
+        console.log("actual: " + actualStudent);
+        return actualStudent;
     }
-    return actualStudent;
+    
 
 }
 
@@ -285,16 +297,17 @@ function findSpace(val){
     }); */
 
     //my new solution using Yu's 
-    var spacePosition = val.search(" ");
+    spacePosition = val.search(" ");
+    console.log("Positon of name separator (space): " + spacePosition);//line for test
     return spacePosition;
 }
 //-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
     loadClasses(listOfStudents);
     clickClass(tempClassList);
-    if (tempStudList !== []) {
+    /* if (tempStudList !== []) {
         loadActualStudent(tempStudList);
-    }
+    } */
     
     saveGrade();
     cancel();
