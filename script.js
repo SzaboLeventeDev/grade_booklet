@@ -1,10 +1,13 @@
 //global variables
 var tempClassList = [];
 var tempStudList = [];
-var selectedStudent = student;
+
 var locationOfSpace = 0;
 var selectedClass;
 var spacePosition;
+var actualStudent = {};
+var firstNameOfStud;
+var lastNameOfStud;
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -19,6 +22,7 @@ var student = {
         }
     }
 }
+var selectedStudent = Object.create(student);
 var gradeForStudent = {
     topic: "",
     grade: "",
@@ -249,9 +253,6 @@ function cancel(){
 function loadActualStudent(tempStudList){
     console.log("loadActualStudent() is invoking");//line for test
     var studList = document.getElementById("studsOfClass");
-    var firstNameOfStud;
-    var lastNameOfStud;
-    var actualStudent = {};
     for(var i = 0; i < tempStudList.length; i++){
         studList.children[i].addEventListener("click", function(){
             console.log(this.innerHTML);//line for test
@@ -260,24 +261,29 @@ function loadActualStudent(tempStudList){
             lastNameOfStud = this.innerHTML.substr(spacePosition+1);    
             console.log("first:"+ firstNameOfStud);
             console.log("last:"+ lastNameOfStud);
+            compareStudent();
             return lastNameOfStud && firstNameOfStud;
+            
         })
     }
-    if (firstNameOfStud != "" && lastNameOfStud != "") {
+    
+}
+
+function compareStudent(){
+    actualStudent = {};
+    if (firstNameOfStud !== "" && lastNameOfStud !== "") {
         for (let index = 0; index < listOfStudents.length-1; index++) {
-            console.log(i + ". start")//line for test
-            if (listOfStudents[i].first === firstNameOfStud && listOfStudents[i].last === lastNameOfStud) {
-                actualStudent == listOfStudents[i].slice();
+            console.log(index + ". start")//line for test
+            if (listOfStudents[index].first === firstNameOfStud && listOfStudents[index].last === lastNameOfStud) {
+                selectedStudent = listOfStudents.slice(index, index+1);
                 console.log("Yes");//line for test
                 break;
             }
-            console.log(i + ". finish")//line for test 
+            console.log(index + ". finish")//line for test 
         }
-        console.log("actual: " + actualStudent);
-        return actualStudent;
+        console.log("actual: " + selectedStudent[0].first + " " +selectedStudent[0].last);
+        return selectedStudent;
     }
-    
-
 }
 
 function findSpace(val){
@@ -313,4 +319,6 @@ $(document).ready(function(){
     cancel();
 })
 
-
+/* $(loadActualStudent(tempStudList)).ready(function(){
+    compareStudent(); 
+}) */
