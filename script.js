@@ -1,13 +1,18 @@
 //global variables
 var tempClassList = [];
 var tempStudList = [];
-
 var locationOfSpace = 0;
 var selectedClass;
 var spacePosition;
-var actualStudent = {};
 var firstNameOfStud;
 var lastNameOfStud;
+var tempSubjectList = [];
+var oralCheck = document.getElementById("oralGrade");
+var smallTestCheck = document.getElementById("smallTestGrade");
+var testCheck = document.getElementById("testGrade");
+var majorTestCheck = document.getElementById("majorTestGrade");
+var selectedGrade = document.getElementById("selectGrade");
+var selectedSubject = document.getElementById("subjectList");
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -160,13 +165,7 @@ function listStuds(val, arr){
     console.log("tempStudlist: ", tempStudList);//log for testing
 }
 /* ------------------------add grade to student----------------------------------------------*/
-var tempSubjectList = [];
-var oralCheck = document.getElementById("oralGrade");
-var smallTestCheck = document.getElementById("smallTestGrade");
-var testCheck = document.getElementById("testGrade");
-var majorTestCheck = document.getElementById("majorTestGrade");
-var selectedGrade = document.getElementById("selectGrade");
-var selectedSubject = document.getElementById("subjectList");
+
 
 function selectSubjectsForGrade(arr){
     arr.filter(function(value){
@@ -270,19 +269,44 @@ function loadActualStudent(tempStudList){
 }
 
 function compareStudent(){
-    actualStudent = {};
+    
     if (firstNameOfStud !== "" && lastNameOfStud !== "") {
         for (let index = 0; index < listOfStudents.length-1; index++) {
             console.log(index + ". start")//line for test
             if (listOfStudents[index].first === firstNameOfStud && listOfStudents[index].last === lastNameOfStud) {
-                selectedStudent = listOfStudents.slice(index, index+1);
+                console.log(listOfStudents[index].first);//line for test
+                selectedStudent.first = listOfStudents[index].first;
+                selectedStudent.last = listOfStudents[index].last;
+                selectedStudent.classData = listOfStudents[index].classData;
                 console.log("Yes");//line for test
+                console.log(selectedStudent.first);//line for test
+                console.log(selectedStudent.last);//line for test
+                console.log("actual: " + selectedStudent.first + " " +selectedStudent.last);//line for test
+                loadSubjectsList(selectedStudent); 
+                return selectedStudent;
+                
                 break;
             }
             console.log(index + ". finish")//line for test 
         }
-        console.log("actual: " + selectedStudent[0].first + " " +selectedStudent[0].last);
-        return selectedStudent;
+          
+    }
+}
+
+function loadSubjectsList(stud){
+    console.log("subject loading is at the beginning")//line for test
+    var studSubject = stud.classData.subject;
+    /* studSubject.forEach(function(val){
+        $("selectedSubject").append("<option>" + val + "<option/>");
+    }) */
+    /* for (const sub in studSubject) {
+        selectedSubject.append("<option>" + sub + "</option>");
+    } */
+
+    for(var sub in studSubject){
+        console.log(sub);//line for test
+        $("#subjectList").append(new Option(sub));
+        console.log(sub + " added to the list")//line for test
     }
 }
 
