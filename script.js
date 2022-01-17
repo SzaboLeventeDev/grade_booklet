@@ -13,6 +13,7 @@ var testCheck = document.getElementById("testGrade");
 var majorTestCheck = document.getElementById("majorTestGrade");
 var selectedGrade = document.getElementById("selectGrade");
 var selectedSubject = document.getElementById("subjectList");
+var contentSection = document.getElementsByClassName("content");
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -302,11 +303,36 @@ function loadSubjectsList(stud){
     /* for (const sub in studSubject) {
         selectedSubject.append("<option>" + sub + "</option>");
     } */
-
+    $(".content").addClass("scroll");
     for(var sub in studSubject){
         console.log(sub);//line for test
         $("#subjectList").append(new Option(sub));
         console.log(sub + " added to the list")//line for test
+
+        //-----------------subject details, data---------------
+        
+        $(".content").append(
+            `<div class="subjectSummary">
+                <div class="subjectTitleSector">
+                    <h3 id="subject_1" class="subjectName">
+                        ${sub}
+                    </h3>
+                </div>
+                <div class="gradeSector">
+                    <div class="lastGrade">
+                        <h4 id="last_grade_1" class="lastGradeTitle">Last grade</h4>
+                        <h3>5</h3>
+                    </div>
+                    <div class="averageGrade">
+                        <h4 id="average_grade_1" class="averageGradeTitle">Average of grades</h4>
+                        <h3>4</h3>
+                    </div>
+                </div>
+                <div class="statSector">
+                    //pie chart.
+                </div>
+            </div>`
+        );
     }
 }
 
@@ -331,6 +357,7 @@ function findSpace(val){
     console.log("Positon of name separator (space): " + spacePosition);//line for test
     return spacePosition;
 }
+
 //-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
     loadClasses(listOfStudents);

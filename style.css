@@ -81,13 +81,46 @@ ul>li:hover{
     width: 100%;
     padding: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
+    
 }
-
+.scroll{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    
+}
 /* --------------------subject-summary------------------------- */
-.subject_summary{
-    width: 180px;
-    height: 140px;
+.subjectSummary{
+    width: 90%;
+    height: 7rem;
+    margin-bottom: 2rem;
+    padding: 15px 0;
     border: 1px solid black;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.subjectTitleSelector, .gradeSector, .statSector{
+    width: 11rem;
+    padding: 15px;
+    
+}
+.lastGrade, .averageGrade{
+    display: flex;
+    justify-content: space-between;
+}
+.subjectName{
+    margin: auto;
+    padding: 40px 0; 
+    font-size: x-large;
+}
+
+.gradeSector{
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
+.lastGradeTitle, .averageGradeTitle{
+    margin: 5px;
 }
