@@ -7,6 +7,7 @@ var spacePosition;
 var firstNameOfStud;
 var lastNameOfStud;
 var tempSubjectList = [];
+var studSubject;
 var oralCheck = document.getElementById("oralGrade");
 var smallTestCheck = document.getElementById("smallTestGrade");
 var testCheck = document.getElementById("testGrade");
@@ -46,6 +47,11 @@ var listOfStudents = [
                 literature: [{
                     topic: "Petofi Sandor",
                     grade: "5",
+                    category:"speak"
+                },
+                {
+                    topic: "Kölcsey Ferenc - Himnusz",
+                    grade: "3",
                     category:"speak"
                 }],
                 history: [{
@@ -296,7 +302,8 @@ function compareStudent(){
 
 function loadSubjectsList(stud){
     console.log("subject loading is at the beginning")//line for test
-    var studSubject = stud.classData.subject;
+    studSubject = stud.classData.subject;
+    var indexOfItem = 0;
     /* studSubject.forEach(function(val){
         $("selectedSubject").append("<option>" + val + "<option/>");
     }) */
@@ -307,6 +314,7 @@ function loadSubjectsList(stud){
     for(var sub in studSubject){
         console.log(sub);//line for test
         $("#subjectList").append(new Option(sub));
+        
         console.log(sub + " added to the list")//line for test
 
         //-----------------subject details, data---------------
@@ -321,11 +329,11 @@ function loadSubjectsList(stud){
                 <div class="gradeSector">
                     <div class="lastGrade">
                         <h4 id="last_grade_1" class="lastGradeTitle">Last grade</h4>
-                        <h3>5</h3>
+                        <h3 class="lastGradeValue">${studSubject[sub][0].grade}</h3>
                     </div>
                     <div class="averageGrade">
                         <h4 id="average_grade_1" class="averageGradeTitle">Average of grades</h4>
-                        <h3>4</h3>
+                        <h3 class="averageGradeValue">4</h3>
                     </div>
                 </div>
                 <div class="statSector">
@@ -357,7 +365,11 @@ function findSpace(val){
     console.log("Positon of name separator (space): " + spacePosition);//line for test
     return spacePosition;
 }
+//-------------------------------------data for subject content----------------------------------
+function averageOfSubject(){
 
+
+}
 //-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
     loadClasses(listOfStudents);

@@ -121,6 +121,6 @@ ul>li:hover{
     border-right: 1px solid grey;
 }
 
-.lastGradeTitle, .averageGradeTitle{
+.lastGradeTitle, .averageGradeTitle, .lastGradeValue, .averageGradeValue{
     margin: 5px;
 }
