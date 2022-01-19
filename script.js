@@ -7,12 +7,14 @@ var spacePosition;
 var firstNameOfStud;
 var lastNameOfStud;
 var tempSubjectList = [];
+var studSubject;
 var oralCheck = document.getElementById("oralGrade");
 var smallTestCheck = document.getElementById("smallTestGrade");
 var testCheck = document.getElementById("testGrade");
 var majorTestCheck = document.getElementById("majorTestGrade");
 var selectedGrade = document.getElementById("selectGrade");
 var selectedSubject = document.getElementById("subjectList");
+var contentSection = document.getElementsByClassName("content");
 //Array of students and declaration for the objects
 var student = {
     first:"",
@@ -45,6 +47,11 @@ var listOfStudents = [
                 literature: [{
                     topic: "Petofi Sandor",
                     grade: "5",
+                    category:"speak"
+                },
+                {
+                    topic: "Kölcsey Ferenc - Himnusz",
+                    grade: "3",
                     category:"speak"
                 }],
                 history: [{
@@ -295,18 +302,45 @@ function compareStudent(){
 
 function loadSubjectsList(stud){
     console.log("subject loading is at the beginning")//line for test
-    var studSubject = stud.classData.subject;
+    studSubject = stud.classData.subject;
+    var indexOfItem = 0;
     /* studSubject.forEach(function(val){
         $("selectedSubject").append("<option>" + val + "<option/>");
     }) */
     /* for (const sub in studSubject) {
         selectedSubject.append("<option>" + sub + "</option>");
     } */
-
+    $(".content").addClass("scroll");
     for(var sub in studSubject){
         console.log(sub);//line for test
         $("#subjectList").append(new Option(sub));
+        
         console.log(sub + " added to the list")//line for test
+
+        //-----------------subject details, data---------------
+        
+        $(".content").append(
+            `<div class="subjectSummary">
+                <div class="subjectTitleSector">
+                    <h3 id="subject_1" class="subjectName">
+                        ${sub}
+                    </h3>
+                </div>
+                <div class="gradeSector">
+                    <div class="lastGrade">
+                        <h4 id="last_grade_1" class="lastGradeTitle">Last grade</h4>
+                        <h3 class="lastGradeValue">${studSubject[sub][0].grade}</h3>
+                    </div>
+                    <div class="averageGrade">
+                        <h4 id="average_grade_1" class="averageGradeTitle">Average of grades</h4>
+                        <h3 class="averageGradeValue">4</h3>
+                    </div>
+                </div>
+                <div class="statSector">
+                    //pie chart.
+                </div>
+            </div>`
+        );
     }
 }
 
@@ -330,6 +364,11 @@ function findSpace(val){
     spacePosition = val.search(" ");
     console.log("Positon of name separator (space): " + spacePosition);//line for test
     return spacePosition;
+}
+//-------------------------------------data for subject content----------------------------------
+function averageOfSubject(){
+
+
 }
 //-------------------------------------ready---------------------------------------------------------------------------
 $(document).ready(function(){
