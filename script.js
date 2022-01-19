@@ -244,11 +244,16 @@ function saveGrade(arr){
 
 function cancel(){
     var cancel = document.getElementById("cancelBtn");
+    var radioButtonArray = document.getElementsByName("gradeTypes");
     cancel.addEventListener("click", function(){
         console.log("click");
         document.getElementById("subjectList").selectedIndex = 0;
         document.getElementById("selectGrade").selectedIndex = 0;
         document.getElementById("topicText").value = "";
+        for(var btnIndex = 0; btnIndex < radioButtonArray.length-1; btnIndex++){
+            var radioBtn = radioButtonArray[btnIndex];
+            radioBtn.checked = null;
+        }
     });
    
 
