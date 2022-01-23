@@ -238,6 +238,7 @@ function saveGrade(arr){
             newGrade.grade = selectedGrade.value;
             console.log(newGrade);//line for test
             selectedStudent.classData.subject[selectedSubject.value].push(newGrade);
+            isNewGrade = true;
             return selectedStudent;
         }
     })
@@ -262,16 +263,22 @@ function cancel(){
 
 //-------------------------------------push/refresh subject data from the selectedStudent to the ListOfStudent----------------------------------
 function checkStudData(){
+    
+
+    //search student to refresh data
     for (var indxOfStud = 0; indxOfStud< listOfStudents.length-1;indxOfStud++){
             if (listOfStudents.firstName === selectedStudent.firstName && listOfStudents.lastName === selectedStudent.lastName) {
                 console.log("listOfStud: " + listOfStudents[indxOfStud].classData.subject)//line for test
                 console.log("selectedStud: " + selectedStudent.classData.subject)//line for test
                 listOfStudents[indxOfStud].classData.subject == selectedStudent.classData.subject;
+                isNewGrade = false;
+                break;
             }
             else{
                 console.log("error, impossible to refresh the subjects in the array.");
             }
     }
+    
 }
 
 
@@ -283,6 +290,12 @@ function loadActualStudent(tempStudList){
     var studList = document.getElementById("studsOfClass");
     for(var i = 0; i < tempStudList.length; i++){
         studList.children[i].addEventListener("click", function(){
+            //check if selectedStudent has newGrade.
+            if (isNewGrade = true) {
+                checkStudData();
+            }
+            //selectedStudent has no newGrade or refreshing data in listOfStudent finished.
+            
             console.log(this.innerHTML);//line for test
             findSpace(this.innerHTML);// instead of tempsutdlist -> studist.children[i].innerhtml/innertext?            
             firstNameOfStud = this.innerHTML.substr(0, spacePosition);
