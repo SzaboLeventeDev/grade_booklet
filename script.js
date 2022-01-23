@@ -8,6 +8,7 @@ var firstNameOfStud;
 var lastNameOfStud;
 var tempSubjectList = [];
 var studSubject;
+var isNewGrade = false;
 var oralCheck = document.getElementById("oralGrade");
 var smallTestCheck = document.getElementById("smallTestGrade");
 var testCheck = document.getElementById("testGrade");
@@ -186,58 +187,58 @@ function valueChanged(){
     if (oralCheck.checked == true) {
         smallTestCheck.checked == false;
         testCheck.checked == false;
-        majorTestCheck.checked == false
+        majorTestCheck.checked == false;
+        return "speak";
     }
     else if (smallTestCheck.checked == true) {
         oralCheck.checked == false;
         testCheck.checked == false;
         majorTestCheck.checked == false;
+        return "small test"
     }
     else if(testCheck.checked == true){
         oralCheck.checked == false;
         smallTestCheck.checked == false;
-        majorTestCheck.checked == false
+        majorTestCheck.checked == false;
+        return "test";
     }
     else if (majorTestCheck.checked == true) {
         oralCheck.checked == false;
         smallTestCheck.checked == false;
         testCheck.checked == false;
+        return "major test"
     }
-    return;
+    return null;
 }
 
 function saveGrade(arr){
     var topicInput = document.getElementById("topicText");
     var newGrade =  Object.create(gradeForStudent);
-    newGrade.topic = topicInput.value;
-    newGrade.category = valueChanged();
-    newGrade.grade = selectedGrade.value;
+    
     /* newGrade.subject = selectedSubject; */
 
     //save button addEventListener
     var saveButton = document.getElementById("saveBtn");
     var getSelectedRadioBtn = document.querySelector('input[name = "gradeTypes"]:checked');
-    var actualGrade = selectedGrade.options[selectedGrade.selectedIndex].value;
-    var actualSubject = selectedSubject.options[selectedSubject.selectedIndex].value;
+    var actualGrade = selectedGrade.value;//selectedGrade.options[selectedGrade.selectedIndex].value;
+    var actualSubject = selectedStudent.value;//selectedSubject.options[selectedSubject.selectedIndex].value;
     saveButton.addEventListener("click", function (){
         //check if newGrade has not empty value
-        if (actualSubject == "Select a subject!" || topicInput.value == "" || getSelectedRadioBtn == null || actualGrade == "Select a grade!") {
+        if (actualSubject == "Select a subject!" || topicInput.value == "" || valueChanged() == null || actualGrade == "Select a grade!") {
+
             alert("Please add all the required parameters for the saving!");
             //write the missing data/param to the user. - not finished
-            console.log("error");
+            console.log("error, actualSubject: " + actualSubject + ", topic: " + topicInput.value + ", type of grade: " + valueChanged() + ", actual grade: " + actualGrade);
         }
         else{
-            //newGrade pushing
-            for (let i = 0; i < listOfStudents.length-1; i++) {
-                var tempSubject = listOfStudents[i].classData.subject;
-                if (listOfStudents[i].first === selectedStudent.first && listOfStudents[i].last === selectedStudent.last) {
-                    tempSubject.some(function(actualSubject, index){
-                        if (actualSubject === tempSubject[index]) {
-                            tempSubject[index].push(newGrade);
-                        }
-                    })
-                }
-            }
+            //add the grade to the selectedStudent
+            newGrade.subject
+            newGrade.topic = topicInput.value;
+            newGrade.category = valueChanged();
+            newGrade.grade = selectedGrade.value;
+            console.log(newGrade);//line for test
+            selectedStudent.classData.subject[selectedSubject.value].push(newGrade);
+            return selectedStudent;
         }
     })
 }
@@ -259,10 +260,26 @@ function cancel(){
 
 }
 
+//-------------------------------------push/refresh subject data from the selectedStudent to the ListOfStudent----------------------------------
+function checkStudData(){
+    for (var indxOfStud = 0; indxOfStud< listOfStudents.length-1;indxOfStud++){
+            if (listOfStudents.firstName === selectedStudent.firstName && listOfStudents.lastName === selectedStudent.lastName) {
+                console.log("listOfStud: " + listOfStudents[indxOfStud].classData.subject)//line for test
+                console.log("selectedStud: " + selectedStudent.classData.subject)//line for test
+                listOfStudents[indxOfStud].classData.subject == selectedStudent.classData.subject;
+            }
+            else{
+                console.log("error, impossible to refresh the subjects in the array.");
+            }
+    }
+}
+
+
 //-------------------------------------click the selected student for more info----------------------------------------
 
 function loadActualStudent(tempStudList){
     console.log("loadActualStudent() is invoking");//line for test
+    //selectedStudent -> new Student() 
     var studList = document.getElementById("studsOfClass");
     for(var i = 0; i < tempStudList.length; i++){
         studList.children[i].addEventListener("click", function(){
